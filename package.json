@@ -19,8 +19,11 @@
   "homepage": "https://github.com/DylanFellows/liri-node-app#readme",
   "dependencies": {
     "dotenv": "^6.1.0",
+    "keys.js": "^1.0.2",
     "moment": "^2.22.2",
+    "node-fs": "^0.1.7",
     "node-spotify-api": "^1.0.7",
+    "readline": "^1.3.0",
     "request": "^2.88.0"
   }
 }
