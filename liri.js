@@ -18,45 +18,46 @@ const validCommands = ["concert-this", "spotify-this-song", "movie-this", "do-wh
 const CRLF = "\n";
 
 // Defaults
-const defaultMovieName = "Mr. Nobody";
-const defaultSongName = "What's My Age Again";
+const defaultArtist = "Khalid"
+const defaultMovieName = "Interstellar";
+const defaultSongName = "92 Explorer";
 
 var artistName = '';
 var movieName = '';
 var songName = '';
 
 
-if (validArgs()) {
+if (validArg()) {
 
     // Call correct functionality based on command line args 
     if (process.argv[2] === "concert-this") {
         artistName = process.argv[3];
         if(artistName === '') {
-            console.log("Please provide an artist/band name");
-        }
-        displayBandData();
+            console.log("No band entered, defaulting...");
+            artist = defaultArtist;
+        };
+        displayArtist();
     } else if (process.argv[2] === "spotify-this-song") {
         songName = process.argv[3];
         if(songName === '') {
-            console.log("No song entered, defaulting...")
+            console.log("No song entered, defaulting...");
             songName = defaultSongName;
-        }
-        displaySongData();
+        };
+        displaySong();
     } else if (process.argv[2] === "movie-this") {
         movieName = process.argv[3];
         if(movieName === '') {
-            console.log("No movie entered, defaulting...")
+            console.log("No movie entered, defaulting...");
             movieName = defaultMovieName;
-        }
-        displayMovieData();
+        };
+        displayMovie();
     } else if (process.argv[2] === "do-what-it-says") {
         readFile('random.txt');
-    }
-}
-
+    };
+};
 
 // Checks if the arguments passed in the terminal are valid
-function validArgs() {
+function validArg() {
     let retVal = true;
 
     // There will always be either 4 arguments or 3 arguments in the case of do-what-it-says command. 
@@ -72,10 +73,10 @@ function validArgs() {
         retVal = false;
     }
     return retVal;
-}
+};
 
 // Displays the band data in the terminal 
-function displayBandData() {
+function displayArtist() {
 
     // Requests band data from the BandsInTown API
     let queryUrl = `https://rest.bandsintown.com/artists/${artistName}/events?app_id=${bandsKey}`
@@ -101,23 +102,23 @@ function displayBandData() {
                     bandInfo += "Location of event: " + venue.city + ", " + venue.region + " - " + venue.country + CRLF;
                     bandInfo += "Date of event: " + moment(body[i].datetime).format("MM/DD/YYYY") + CRLF;
                     bandInfo += CRLF;
-                }
+                };
                 console.log(bandInfo);
-            }
-        }
-    })
-}
+            };
+        };
+    });
+};
 
 
 // Displays the song data in the terminal
-function displaySongData() {
+function displaySong() {
     var spotify = new Spotify({ id: spotifyId, secret: spotifySecret });
 
     // Searches the spotify API for a given song
     spotify.search({ type: 'track', query: `${songName}` }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
-        }
+        };
 
         let songResults = "";
         console.log(CRLF);
@@ -129,16 +130,16 @@ function displaySongData() {
                 songResults += data.tracks.items[i].album.artists[0].external_urls.spotify + CRLF;
                 songResults += data.tracks.items[i].album.name + CRLF;
                 songResults += CRLF;
-            }
+            };
             console.log(songResults);
         } catch (e) {
             console.log(`An error occured while attempting to retrieve results for song ${songName}.`);
-        }
+        };
     });
-}
+};
 
 // Displays the movie data in terminal
-function displayMovieData() {
+function displayMovie() {
 
     // Request the movie data from OMDB API
     let queryUrl = `http://www.omdbapi.com/?t=${movieName}&apikey=${movieKey}&`
@@ -166,7 +167,7 @@ function displayMovieData() {
                         rottenTomatoesRating = arr[i].Value;
                         break;
                     }
-                }
+                };
                 movieResults += "Rotten Tomatoes rating: " + rottenTomatoesRating + CRLF;
                 movieResults += "Country: " + body.Country + CRLF;
                 movieResults += "Language: " + body.Language + CRLF;
@@ -181,9 +182,9 @@ function displayMovieData() {
         } catch (e) {
             console.log(`An error occured while attempting to retrieve movie results for ${movieName}. 
                         Please check your spelling of the movie name`);
-        }
-    })
-}
+        };
+    });
+};
 
 // Read input file parse each line and spawn child process
 function readFile(fileName) {
@@ -198,7 +199,7 @@ function readFile(fileName) {
         let cmd = 'node liri.js ' + line;
         execChild(cmd);
     });
-}
+};
 
 // Execute a given node LIRI command
 function execChild(cmd) {
@@ -212,7 +213,7 @@ function execChild(cmd) {
             console.log(stdout);
         }
     });
-}
+};
 
 // Inform the user of the correct usage of LIRI
 function usage() {
@@ -222,4 +223,4 @@ function usage() {
     console.log('node liri.js spotify-this-song "song name"');
     console.log('node liri.js movie-this "movie name"');
     console.log("node liri.js do-what-it-says");
-}
+};

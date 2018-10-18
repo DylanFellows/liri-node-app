@@ -19,6 +19,7 @@
   "homepage": "https://github.com/DylanFellows/liri-node-app#readme",
   "dependencies": {
     "dotenv": "^6.1.0",
+    "inquirer": "^6.2.0",
     "keys.js": "^1.0.2",
     "moment": "^2.22.2",
     "node-fs": "^0.1.7",
