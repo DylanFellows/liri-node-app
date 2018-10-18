@@ -9,9 +9,9 @@
 # How users can get started with the project
 
  **You start using this projects by entering in the following commands in the command prompt/terminal:
-      node liri.js concert-this "*band/artist name*"
-      node liri.js spotify-this-song "*song name*"
-      node liri.js movie-this "*movie name*"
+      node liri.js concert-this "*band/artist name*" ||||| 
+      node liri.js spotify-this-song "*song name*" ||||| 
+      node liri.js movie-this "*movie name*" ||||| 
       node liri.js do-what-it-says
 
 # Where users can get help with your project
